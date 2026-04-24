@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WhisperNote.Views.NotesPage"
+             BackgroundColor="#0F111A"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="True"
+             Shell.FlyoutItemIsVisible="False">
+
+    <Grid RowDefinitions="*, Auto" Padding="10">
+
+        <CollectionView x:Name="NotesListView" Grid.Row="0" SelectionMode="None">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="{OnIdiom Phone=1, Tablet=2, Desktop=3}" VerticalItemSpacing="10" HorizontalItemSpacing="10" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems Mode="Reveal">
+                                <SwipeItem Text="Supprimer" 
+                                   BackgroundColor="#BF616A" 
+                                   Invoked="OnDeleteNote" 
+                                   CommandParameter="{Binding .}" />
+                                <SwipeItem Text="Cloner" 
+                                   BackgroundColor="#D08770" 
+                                   Invoked="OnCloneNote" 
+                                   CommandParameter="{Binding .}" />
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+
+                        <Border Stroke="#2E3440" StrokeThickness="1" Padding="15" BackgroundColor="#161821" StrokeShape="RoundRectangle 10">
+                            <Grid ColumnDefinitions="*, Auto">
+                                <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                    <Label Text="{Binding Name}" TextColor="#E0E0E0" FontAttributes="Bold" MaxLines="1" LineBreakMode="TailTruncation" />
+                                    <Label Text="{Binding LastWriteTime, StringFormat='{0:dd/MM HH:mm}'}" TextColor="#676E95" FontSize="11" />
+                                </VerticalStackLayout>
+
+                                <HorizontalStackLayout Grid.Column="1" Spacing="5">
+                                    <Button Text="✎" Clicked="OnEditNote" CommandParameter="{Binding .}" BackgroundColor="#2E3440" WidthRequest="45" HeightRequest="45" CornerRadius="22" />
+                                    <Button Text="📤" Clicked="OnShareNote" CommandParameter="{Binding .}" BackgroundColor="#2E3440" WidthRequest="45" HeightRequest="45" CornerRadius="22" />
+                                </HorizontalStackLayout>
+                            </Grid>
+                        </Border>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <HorizontalStackLayout Grid.Row="1" Spacing="10" HorizontalOptions="Center" Margin="0,10">
+            <Button Text="🔄" Clicked="RefreshNotes" BackgroundColor="#1A1C2E" TextColor="#89DDFF" WidthRequest="60" HeightRequest="60" CornerRadius="30" />
+            <Button Text="+ NOUVELLE NOTE" Clicked="OnNewNote" BackgroundColor="#1A1C2E" TextColor="#89DDFF" FontAttributes="Bold" Padding="20,0" HeightRequest="60" CornerRadius="30" />
+        </HorizontalStackLayout>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WhisperNote.Views.NoteEditorPage"
+             BackgroundColor="#0F111A"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="True"
+             Shell.FlyoutItemIsVisible="False">
+
+    <Grid RowDefinitions="Auto, Auto, *, Auto" Padding="10" RowSpacing="10">
+
+        <Grid Grid.Row="0" ColumnDefinitions="*, Auto" ColumnSpacing="10">
+            <Border Grid.Column="0" BackgroundColor="#161821" Stroke="#2E3440" StrokeShape="RoundRectangle 8">
+                <Entry x:Name="FileNameEntry" Placeholder="Titre de la note" TextColor="#89DDFF" 
+                       FontAttributes="Bold" FontSize="16" PlaceholderColor="#4C566A" Margin="10,0"/>
+            </Border>
+            <Label Grid.Column="1" x:Name="WordCountLabel" Text="0 mots" VerticalOptions="Center" 
+                   TextColor="#4C566A" FontSize="10" Margin="5,0"/>
+        </Grid>
+
+        <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+            <HorizontalStackLayout Spacing="6" Padding="2">
+                <Button Text="H1" Clicked="OnInsertMd" CommandParameter="#" Style="{StaticResource MdBtn}"/>
+                <Button Text="H2" Clicked="OnInsertMd" CommandParameter="##" Style="{StaticResource MdBtn}"/>
+                <Button Text="H3" Clicked="OnInsertMd" CommandParameter="###" Style="{StaticResource MdBtn}"/>
+                <Button Text="---" Clicked="OnInsertMd" CommandParameter="&#x0a;---&#x0a;" Style="{StaticResource MdBtn}"/>
+
+                <Button Text="📜 Sommaire" Clicked="OnInsertMd" CommandParameter="&#x0a;[TOC]&#x0a;" Style="{StaticResource MdBtn}"/>
+
+                <BoxView WidthRequest="1" Color="#2E3440" Margin="4,5"/>
+
+                <Button Text="B" FontAttributes="Bold" Clicked="OnInsertMd" CommandParameter="****" Style="{StaticResource MdBtn}"/>
+                <Button Text="I" FontAttributes="Italic" Clicked="OnInsertMd" CommandParameter="__" Style="{StaticResource MdBtn}"/>
+                <Button Text="Lien" Clicked="OnInsertMd" CommandParameter="[]()" Style="{StaticResource MdBtn}"/>
+
+                <Button Text="&quot;" Clicked="OnInsertMd" CommandParameter="> " Style="{StaticResource MdBtn}"/>
+
+                <BoxView WidthRequest="1" Color="#2E3440" Margin="4,5"/>
+
+                <Button Text="☑" Clicked="OnInsertMd" CommandParameter="- [ ] " Style="{StaticResource MdBtn}"/>
+                <Button Text="•" Clicked="OnInsertMd" CommandParameter="- " Style="{StaticResource MdBtn}"/>
+                <Button Text="1." Clicked="OnInsertMd" CommandParameter="1. " Style="{StaticResource MdBtn}"/>
+
+                <BoxView WidthRequest="1" Color="#2E3440" Margin="4,5"/>
+
+                <Button Text="📅" Clicked="OnInsertTimestamp" Style="{StaticResource MdBtn}"/>
+
+                <Button Text="&lt;/&gt;" Clicked="OnInsertMd" CommandParameter="&#x0a;```csharp&#x0a;&#x0a;```&#x0a;" Style="{StaticResource MdBtn}"/>
+
+                <Button Text="📊 Table" Clicked="OnInsertMd" CommandParameter="&#x0a;| Titre 1 | Titre 2 |&#x0a;|---|---|&#x0a;| Valeur | Info |&#x0a;" Style="{StaticResource MdBtn}"/>
+
+                <BoxView WidthRequest="1" Color="#2E3440" Margin="4,5"/>
+
+                <Button Text="🚀" Clicked="OnInsertMd" CommandParameter=" :rocket: " Style="{StaticResource MdBtn}"/>
+                <Button Text="⚠️" Clicked="OnInsertMd" CommandParameter=" :warning: " Style="{StaticResource MdBtn}"/>
+                <Button Text="✅" Clicked="OnInsertMd" CommandParameter=" :white_check_mark: " Style="{StaticResource MdBtn}"/>
+
+                <Button Text="[ ^ ]" Clicked="OnInsertMd" CommandParameter="[^1]&#x0a;&#x0a;[^1]: Définition ici." Style="{StaticResource MdBtn}"/>
+
+            </HorizontalStackLayout>
+        </ScrollView>
+
+        <Border Grid.Row="2" BackgroundColor="#161821" Stroke="#2E3440" StrokeShape="RoundRectangle 8">
+            <Editor x:Name="NoteContentEditor" 
+                    Placeholder="Redigez en Markdown..." 
+                    TextColor="#D8DEE9" FontSize="15" FontFamily="Monospace"
+                    TextChanged="OnTextChanged"
+                    AutoSize="Disabled" VerticalOptions="FillAndExpand" Margin="10"/>
+        </Border>
+
+        <Grid Grid.Row="3" RowDefinitions="Auto, Auto" RowSpacing="8">
+
+            <Grid Grid.Row="0" ColumnDefinitions="*, *, *" ColumnSpacing="8">
+                <Button Grid.Column="0" Text="💾 SAUVER" Clicked="OnSaveClicked" BackgroundColor="#A3BE8C" Style="{StaticResource ActionBtn}"/>
+                <Button Grid.Column="1" Text="🌐 HTML" Clicked="OnExportHtml" BackgroundColor="#81A1C1" Style="{StaticResource ActionBtn}"/>
+                <Button Grid.Column="2" Text="📋 COPIER" Clicked="OnCopyClicked" BackgroundColor="#EBCB8B" Style="{StaticResource ActionBtn}"/>
+            </Grid>
+
+            <Grid Grid.Row="1" ColumnDefinitions="*, *, *, *" ColumnSpacing="8">
+                <Button Grid.Column="0" Text="🔊" Clicked="OnReadAloudClicked" BackgroundColor="#B48EAD" Style="{StaticResource ActionBtn}"/>
+                <Button Grid.Column="1" Text="🔇" Clicked="OnStopReadingClicked" BackgroundColor="#4C566A" Style="{StaticResource ActionBtn}"/>
+                <Button Grid.Column="2" Text="📤" Clicked="OnShareClicked" BackgroundColor="#88C0D0" Style="{StaticResource ActionBtn}"/>
+                <Button Grid.Column="3" Text="🗑️" Clicked="OnClearClicked" BackgroundColor="#BF616A" Style="{StaticResource ActionBtn}"/>
+            </Grid>
+
+        </Grid>
+
+        <Border x:Name="CustomToast"
+                Grid.Row="2"
+                VerticalOptions="End"
+                HorizontalOptions="Center"
+                Margin="0,0,0,20"
+                Padding="15,10"
+                BackgroundColor="#2E3440"
+                StrokeShape="RoundRectangle 20"
+                Opacity="0"
+                InputTransparent="True">
+            <Label x:Name="ToastLabel" Text="Message" TextColor="White" FontSize="13" FontAttributes="Bold"/>
+        </Border>
+        
+    </Grid>
+
+    <ContentPage.Resources>
+        <Style x:Key="MdBtn" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#1A1C2E"/>
+            <Setter Property="TextColor" Value="#82AAFF"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="HeightRequest" Value="38"/>
+            <Setter Property="CornerRadius" Value="6"/>
+        </Style>
+        <Style x:Key="ActionBtn" TargetType="Button">
+            <Setter Property="TextColor" Value="#2E3440"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="HeightRequest" Value="50"/>
+            <Setter Property="CornerRadius" Value="8"/>
+        </Style>
+    </ContentPage.Resources>
+</ContentPage>

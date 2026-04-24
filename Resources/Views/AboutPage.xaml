@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WhisperNote.Views.AboutPage"
+             BackgroundColor="#0F111A"
+             Title="À Propos">
+
+    <AbsoluteLayout>
+        <AbsoluteLayout x:Name="ParticlesLayer"
+                        AbsoluteLayout.LayoutBounds="0,0,1,1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        InputTransparent="True"/>
+
+        <VerticalStackLayout Spacing="25"
+                             Padding="30"
+                             VerticalOptions="Center"
+                             AbsoluteLayout.LayoutBounds="0,0,1,1"
+                             AbsoluteLayout.LayoutFlags="All">
+
+            <Label x:Name="HeaderLabel"
+                   Text="❓ AIDE &amp; INFOS" 
+                   TextColor="#82AAFF" 
+                   FontSize="28" 
+                   HorizontalOptions="Center" 
+                   FontAttributes="Bold"
+                   Opacity="0"
+                   TranslationY="-40"/>
+
+            <Border x:Name="MainCard"
+                    Stroke="#1E1E1E" 
+                    BackgroundColor="#161821" 
+                    Padding="20" 
+                    StrokeShape="RoundRectangle 12"
+                    Opacity="0"
+                    Scale="0.7">
+                <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                    <Label Text="Made by Xartoff" TextColor="White" HorizontalOptions="Center" FontSize="16"/>
+                    <Button x:Name="WebButton"
+                            Text="🌐 Visitez pouetpouet.ca" 
+                            Clicked="OnOpenWebsiteClicked"
+                            BackgroundColor="Transparent" 
+                            TextColor="#89DDFF" 
+                            FontSize="14"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <Button x:Name="ExitButton"
+                    Text="❌ QUITTER"
+                    Clicked="OnExitClicked"
+                    BackgroundColor="#BF616A"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    Margin="0,50,0,0"/>
+        </VerticalStackLayout>
+    </AbsoluteLayout>
+</ContentPage>

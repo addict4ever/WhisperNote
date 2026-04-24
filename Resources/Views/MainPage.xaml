@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WhisperNote.Views.MainPage"
+             xmlns:views="clr-namespace:WhisperNote.Views"
+             BackgroundColor="#0F111A"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="True"
+             Shell.FlyoutItemIsVisible="False">
+
+    <Grid RowDefinitions="Auto, *, Auto, Auto" Padding="15" RowSpacing="10">
+
+        
+        
+        
+
+        <FlexLayout Grid.Row="0" JustifyContent="SpaceBetween" AlignItems="Center">
+            <HorizontalStackLayout Spacing="10">
+                <Label Text="WHISPER NOTE" 
+           FontSize="22" 
+           FontAttributes="Bold" 
+           TextColor="#82AAFF" 
+           VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="OnHeaderDoubleTapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <ActivityIndicator x:Name="Loader" IsRunning="False" Color="#C792EA" HeightRequest="25" WidthRequest="25"/>
+            </HorizontalStackLayout>
+            <Label x:Name="PercentLabel" Text="0%" FontSize="14" FontAttributes="Bold" TextColor="#C792EA" />
+
+            
+        </FlexLayout>
+        
+        
+
+        <Border Grid.Row="1" BackgroundColor="#161821" StrokeThickness="0" StrokeShape="RoundRectangle 12">
+            <Grid RowDefinitions="Auto, *, Auto">
+                <HorizontalStackLayout Grid.Row="0" HorizontalOptions="End" Spacing="10" Padding="10,5">
+                    <Button Text="🗑️" Clicked="OnClearTranscription" BackgroundColor="Transparent" FontSize="18" Padding="5"/>
+                    <Button Text="💾 EXPORT MD" Clicked="OnExportToMarkdown" 
+                            BackgroundColor="#1A1C2E" TextColor="#89DDFF" 
+                            FontSize="10" FontAttributes="Bold" Padding="10,5"/>
+                </HorizontalStackLayout>
+
+                <ScrollView x:Name="TranscriptionScrollView" Grid.Row="1">
+                    <Editor x:Name="TranscriptionEditor"
+                            Placeholder="Le texte apparaîtra ici..."
+                            PlaceholderColor="#464B5D"
+                            TextColor="#E0E0E0"
+                            FontFamily="monospace"
+                            FontSize="15"
+                            AutoSize="TextChanges"
+                            Margin="10">
+                        <Editor.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="OnTranscriptionDoubleTapped" />
+                        </Editor.GestureRecognizers>
+                    </Editor>
+                </ScrollView>
+                <ProgressBar x:Name="TranscriptionBar" Grid.Row="2" ProgressColor="#82AAFF" HeightRequest="4" Progress="0"/>
+            </Grid>
+        </Border>
+
+        <VerticalStackLayout Grid.Row="2" Spacing="5">
+            <Label Text="SYSTÈME &amp; PROGRESSION" FontSize="10" TextColor="#676E95" Margin="5,0"/>
+            <Border BackgroundColor="#0A0C14" Stroke="#1E1E1E" StrokeThickness="1" StrokeShape="RoundRectangle 8">
+                <ScrollView x:Name="LogScrollView" HeightRequest="80">
+                    <Label x:Name="LogLabel" 
+                   TextColor="#00FF00" 
+                   FontSize="10" 
+                   FontFamily="monospace" 
+                   Padding="10">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="OnLogDoubleTapped" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </ScrollView>
+            </Border>
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Row="3" Spacing="10">
+
+            <FlexLayout Wrap="Wrap" JustifyContent="SpaceBetween" AlignItems="Center">
+                <HorizontalStackLayout Spacing="5">
+                    <Label Text="Langue:" VerticalOptions="Center" TextColor="White" FontSize="12"/>
+                    <Picker x:Name="LanguagePicker" Title="Auto" TextColor="#89DDFF" WidthRequest="75" FontSize="12">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>fr</x:String>
+                                <x:String>en</x:String>
+                                <x:String>es</x:String>
+                                <x:String>de</x:String>
+                                <x:String>auto</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                        <Picker.SelectedIndex>0</Picker.SelectedIndex>
+                    </Picker>
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout Spacing="5">
+                    <VerticalStackLayout HorizontalOptions="Center">
+                        <Label Text="Bruit" FontSize="8" TextColor="#82AAFF" HorizontalOptions="Center"/>
+                        <Switch x:Name="NoiseFilterToggle" Scale="0.6" ThumbColor="#82AAFF"/>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout HorizontalOptions="Center">
+                        <Label Text="Iso" FontSize="8" TextColor="#A3BE8C" HorizontalOptions="Center"/>
+                        <Switch x:Name="VoiceIsolateToggle" Scale="0.6" ThumbColor="#A3BE8C"/>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout HorizontalOptions="Center">
+                        <Label Text="VAD" FontSize="8" TextColor="#C792EA" HorizontalOptions="Center"/>
+                        <Switch x:Name="VADToggle" Scale="0.6" ThumbColor="#C792EA"/>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout HorizontalOptions="Center">
+                        <Label Text="Opti" FontSize="8" TextColor="#88C0D0" HorizontalOptions="Center"/>
+                        <Switch x:Name="OptimizeFreqToggle" IsToggled="False" Scale="0.6" ThumbColor="#88C0D0"/>
+                    </VerticalStackLayout>
+                    <Switch x:Name="NormalizeToggle" IsVisible="False"/>
+                </HorizontalStackLayout>
+            </FlexLayout>
+
+            <FlexLayout Wrap="Wrap" JustifyContent="SpaceAround" BackgroundColor="#121420" Padding="2" Margin="0,2">
+                <HorizontalStackLayout Spacing="2">
+                    <Label Text="Lim 1m" FontSize="8" TextColor="Gray" VerticalOptions="Center"/>
+                    <Switch x:Name="LimitToggle" IsToggled="True" Scale="0.5"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout Spacing="2">
+                    <Label Text="Prec+" FontSize="8" TextColor="Gray" VerticalOptions="Center"/>
+                    <Switch x:Name="BeamSwitch" Scale="0.5"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout Spacing="2">
+                    <Label Text="Trad" FontSize="8" TextColor="Gray" VerticalOptions="Center"/>
+                    <Switch x:Name="TranslateSwitch" Scale="0.5"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout Spacing="2">
+                    <Label Text="Rapide" FontSize="8" TextColor="Gray" VerticalOptions="Center"/>
+                    <Switch x:Name="SpeedUpSwitch" Scale="0.5"/>
+                </HorizontalStackLayout>
+            </FlexLayout>
+
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center" Margin="0,5">
+                <Picker x:Name="TargetLanguagePicker" 
+                    Title="Traduire en..."
+                    FontSize="11"
+                    TextColor="#82AAFF"
+                    BackgroundColor="#161821"
+                    WidthRequest="150">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Anglais</x:String>
+                                    <x:String>Espagnol</x:String>
+                                    <x:String>Allemand</x:String>
+                                    <x:String>Italien</x:String>
+                                    <x:String>Portugais</x:String>
+                                    <x:String>Chinois</x:String>
+                                    <x:String>Japonais</x:String>
+                                    <x:String>Russe</x:String>
+                                    <x:String>Arabe</x:String>
+                                    <x:String>Hindi</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+
+                    <Button x:Name="TranslateButton"
+                    Text="🔄 TRADUIRE"
+                    Clicked="OnTranslateClicked"
+                    BackgroundColor="#C792EA"
+                    TextColor="#0F111A"
+                    FontSize="9"
+                    FontAttributes="Bold"
+                    HeightRequest="35"
+                    CornerRadius="8"/>
+            </HorizontalStackLayout>
+
+            <Grid ColumnDefinitions="*, *, *" ColumnSpacing="8" HeightRequest="50">
+                <Button Grid.Column="0" x:Name="LoadModelButton" Text="📁 MODÈLE" Clicked="OnLoadModel"
+                        BackgroundColor="#1A1C2E" TextColor="#89DDFF" FontSize="9" CornerRadius="8"/>
+
+                <Button Grid.Column="1" x:Name="RecordButton" Text="🎤 MICRO" Clicked="OnRecordAudio"
+                        BackgroundColor="#FF5252" TextColor="White" FontSize="9" FontAttributes="Bold" CornerRadius="8"/>
+
+                <Grid Grid.Column="2">
+                    <Button x:Name="MainStartButton" Text="▶️ START" IsVisible="False" Clicked="OnMainStartClicked" 
+                            BackgroundColor="#A3BE8C" TextColor="#0F111A" FontSize="9" FontAttributes="Bold" CornerRadius="8"/>
+                    <Button x:Name="EmergencyStopButton" Text="🛑 STOP" IsVisible="False" Clicked="OnEmergencyStop"
+                            BackgroundColor="#FFCC00" TextColor="Black" FontSize="9" FontAttributes="Bold" CornerRadius="8"/>
+                    <Button x:Name="FileButton" Text="🎙️ FICHIER" Clicked="OnStartTranscription"
+                            BackgroundColor="#82AAFF" TextColor="#0F111A" FontSize="9" FontAttributes="Bold" CornerRadius="8"/>
+                </Grid>
+            </Grid>
+
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="8" Margin="0,2">
+                <Ellipse x:Name="StatusDot" WidthRequest="8" HeightRequest="8" Fill="#464B5D" VerticalOptions="Center"/>
+                <Label x:Name="StatusLabel" Text="Prêt" TextColor="#464B5D" FontSize="10" VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+
+    </Grid>
+</ContentPage>

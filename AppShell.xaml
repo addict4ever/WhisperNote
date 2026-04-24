@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="WhisperNote.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:WhisperNote.Views"
+    Shell.FlyoutBehavior="Disabled"
+    Title="WhisperNote">
+
+    <Shell.Resources>
+        <ResourceDictionary>
+            <Style TargetType="TabBar" ApplyToDerivedTypes="True">
+                <Setter Property="Shell.TabBarBackgroundColor" Value="#0F111A" />
+                <Setter Property="Shell.TabBarTitleColor" Value="#82AAFF" />
+                <Setter Property="Shell.TabBarUnselectedColor" Value="#676E95" />
+            </Style>
+        </ResourceDictionary>
+    </Shell.Resources>
+
+    <TabBar>
+        <Tab Title="Micro">
+            <ShellContent
+                Title="Home"
+                ContentTemplate="{DataTemplate views:MainPage}"
+                Route="MainPage" />
+        </Tab>
+
+        <Tab Title="Archives">
+            <ShellContent
+                Title="Enregistrements"
+                ContentTemplate="{DataTemplate views:RecordsPage}"
+                Route="RecordsPage" />
+        </Tab>
+
+        <Tab Title="Note">
+            <ShellContent
+                Title="Prout MD"
+                ContentTemplate="{DataTemplate views:NotesPage}"
+                Route="NotesPage" />
+        </Tab>
+
+        <Tab Title="Aide">
+            <ShellContent
+                Title="Infos"
+                ContentTemplate="{DataTemplate views:AboutPage}"
+                Route="AboutPage" />
+        </Tab>
+    </TabBar>
+
+    <MenuItem Text="❌ Quitter" Clicked="OnExitClicked" />
+    <MenuItem Text="Made by Xartoff" IsEnabled="False" />
+    <MenuItem Text="🌐 Visitez pouetpouet.ca" Clicked="OnOpenWebsiteClicked" />
+
+</Shell> 
