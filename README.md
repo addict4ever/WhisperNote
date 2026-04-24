@@ -1,6 +1,19 @@
 # 🎙️ WhisperNote
 
+> **La puissance de l'IA Whisper, dans votre poche, 100% hors-ligne.**
+
+[![Platform](https://img.shields.io/badge/Platform-Android-green?style=flat-square&logo=android)](https://dotnet.microsoft.com/en-us/apps/maui)
+[![Framework](https://img.shields.io/badge/Framework-.NET%20MAUI%209.0-blueviolet?style=flat-square)](https://dotnet.microsoft.com/en-us/apps/maui)
+
 **WhisperNote** est une application mobile puissante développée avec **.NET MAUI 9.0**, conçue pour transformer la voix en texte de manière intelligente et locale. En utilisant la technologie de pointe **OpenAI Whisper**, l'application permet de capturer des idées, des réunions ou des notes vocales et de les convertir instantanément en texte, tout en offrant des outils de gestion de notes complets.
+
+---
+
+### 📱 Aperçu de l'interface
+
+| Centre de contrôle (Main) | Éditeur Markdown | Section À propos |
+| :---: | :---: | :---: |
+| <img src="Screenshot_20260424-151300.png" width="200" alt="Main Page"> | <img src="Screenshot_20260424-151309.png" width="200" alt="Editor Page"> | <img src="Screenshot_20260424-151315.png" width="200" alt="About Page"> |
 
 ---
 
